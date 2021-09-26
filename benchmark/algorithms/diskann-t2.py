@@ -183,7 +183,7 @@ class Diskann(BaseANN):
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
         nq, dim = (np.shape(X))
-        self.res, self.query_dists = self.index.batch_search_numpy_input(X, dim, nq, k, self.Ls, self.BW, self.threads)
+        [self.res, self.query_dists], self.stats = self.index.batch_search_numpy_input(X, dim, nq, k, self.Ls, self.BW, self.threads)
 
     def range_query(self, X, radius):
         """
@@ -191,17 +191,14 @@ class Diskann(BaseANN):
         radius.
         """
         nq, dim = np.shape(X)
-        self.rangeres_lim, (self.rangeres_ids, self.rangeres_dists) = self.index.batch_range_search_numpy_input(
+        [self.rangeres_lim, [self.rangeres_ids, self.rangeres_dists]], self.stats = self.index.batch_range_search_numpy_input(
                 X, dim, nq, radius, self.Ls, self.BW, self.threads)
 
     def get_range_results(self):
         return (self.rangeres_lim, self.rangeres_ids, self.rangeres_dists)
 
     def get_additional(self):
-        """
-        Allows to retrieve additional results.
-        """
-        return {}
+        return self.stats
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
