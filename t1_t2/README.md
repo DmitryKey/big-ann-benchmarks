@@ -1,4 +1,4 @@
-# T3 Track
+# T1 and T2 Tracks
 
 ## Table Of Contents
 
@@ -105,11 +105,11 @@ git checkout -b t1/[your_team_name]
 
 This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in *install/Docker.[your_team_name]*.  Your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware. 
 
-Please consult the Dockerfile [here](faiss_t3/Dockerfile) for an example.
+Please consult the Dockerfiles [here](../install/Dockerfile.faiss) and [here](../install/Dockerfile.diskann) for examples.
 
 To build your Docker container, run:
 ```
-python install.py --dockerfile [your_team_name]
+python install.py --install [your_team_name]
 ```
 
 ### Developing_Your_Algorithm
@@ -127,17 +127,17 @@ To benchmark your algorithm, first create an algorithm configuration yaml in you
 
 If your machine is capable of both building and searching an index, you can benchmark your algorithm using the run.py script:
 ```
-python run.py --t3  --algorithm diskann-t2 --dataset deep-1B
+python run.py --algorithm diskann-t2 --dataset deep-1B
 ```
 This will write the results to the toplevel [results](../results) directory.
 
 To build the index and upload it to Azure cloud storage without querying it:
 ```
-python run.py --t3  --algorithm diskann-t2 --dataset deep-1B --upload-index --blob-prefix <your Azure blob container path> --sas-string <your sas string to authenticate to blob>
+python run.py --algorithm diskann-t2 --dataset deep-1B --upload-index --blob-prefix <your Azure blob container path> --sas-string <your sas string to authenticate to blob>
 ```
 To download the index from cloud storage and query it on another machine:
 ```
-python run.py --t3  --algorithm diskann-t2 --dataset deep-1B --download-index --blob-prefix <your Azure blob container path> --sas-string <your sas string to authenticate to blob>
+python run.py --algorithm diskann-t2 --dataset deep-1B --download-index --blob-prefix <your Azure blob container path> --sas-string <your sas string to authenticate to blob>
 ```
 
 Now you can analyze the results by running:
@@ -179,13 +179,13 @@ T3 will maintain four different leaderboards 1) one based on recall 2) one based
 
 Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
 
-|   dataset    |    qps   | recall@10 |
-| ------------ | -------- | --------- |
-| msturing-1B  | 2011.542 |   0.936   |
-| bigann-1B    | 2058.950 |   0.949   |
-| text2image-1B| 2120.635 |   0.488   |
-| deep-1B      | 2002.490 |   0.937   |
-| msspacev-1B  | 2190.829 |   0.901   |
+|   dataset    | recall@10 |
+| ------------ | --------- |
+| msturing-1B  |   0.936   |
+| bigann-1B    |   0.949   |
+| text2image-1B|   0.488   |
+| deep-1B      |   0.937   |
+| msspacev-1B  |   0.901   |
 
 
 Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
