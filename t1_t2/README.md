@@ -9,9 +9,7 @@
   - [Developing Your Dockerfile](#developing_your_dockerfile)
   - [Developing Your Algorithm](#developing_your_algorithm) 
   - [How To Get Help](#how_to_get_help)
-  - [Leaderboard Ranking](#leaderboard_ranking)
-    - [Baseline Thresholds](#baseline_thresholds)
-    - [Leaderboard](#leaderboard)
+  - [Leaderboard](#leaderboard)
 - [For Evaluators](#for_organizers)  
 
 ## Introduction
@@ -171,21 +169,20 @@ There are several ways to get help as you develop your algorithm using this fram
 * Send an email to the competition's T1/T2 organizer, harsha.v.simhadri@gmail.com
 * Send en email to the competition's googlegroup, big-ann-organizers@googlegroups.com
 
-### Leaderboard_Ranking
+### Leaderboard
 
-T3 will maintain four different leaderboards 1) one based on recall 2) one based on throughput 3) one based on power consumption and 4) one based on cost.  The details of the ranking metrics are described here.
+This leaderboard us based on the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms. We have run FAISS and DiskANN as baselines for T1 and T2 respectively, and for each dataset chosen the best recall amongst configurations providing at least **10K QPS for T1 and 1500 QPS for T2**.  The recall of the baselines at this QPS threshold is listed below. 
 
-#### Baseline_Thresholds
-
-Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
-
-|   dataset    | recall@10 |
-| ------------ | --------- |
-| msturing-1B  |   0.936   |
-| bigann-1B    |   0.949   |
-| text2image-1B|   0.488   |
-| deep-1B      |   0.937   |
-| msspacev-1B  |   0.901   |
+|   dataset    |  T1 10K QPS | T2 1500 QPS |
+| ---------------------------------------- |
+|              |  Recall@10 (AP for SSNPP) |
+| ------------ | ----------- | ----------- |
+| msturing-1B  |    0.703    |    0.936    |
+| bigann-1B    |    0.634    |    0.949    |
+| text2image-1B|    0.069    |    0.488    |
+| deep-1B      |    0.650    |    0.937    |
+| msspacev-1B  |    0.728    |    0.901    |
+| ssnpp-1B     |    0.753    |    TBD      |
 
 
 Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
@@ -195,11 +192,7 @@ Here are all the baseline recall@10 vs throughput plots for the (knn search type
 * [deep-1B]()
 * [msspacev-1B]()
 
-#### Leaderboard
-
-This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at track-specific target recall qps for each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
-
-Participants are required to commit to at least 3 datasets, and ideally more. Improvements in recall at target QPS are added to assign a score to a team. Algorithms that work on more datasets are at an advantage as they can benefit from additional scores. Any recall regression compared to the baseline on the datasets committed will be subtracted from the final score.
+Algorithms will be ranked on how much their recall surpasses the baselines at these QPS thresholds.   We will add up the recall improvements of each algorithm on all data sets it competes on. Participants are required to commit to at least 3 datasets, and ideally more. Algorithms that work on more datasets are at an advantage as they can benefit from additional scores. Any recall regression compared to the baseline on the datasets committed to will be subtracted from the final score.
 
 
 ## For_Evaluators
